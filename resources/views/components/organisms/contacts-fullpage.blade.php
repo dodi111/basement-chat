@@ -3,15 +3,14 @@
     data-url="{{ route('api.basement.contacts.index') }}"
     x-init="mount"
     x-data="basementContact"
-    x-show="isContactOpened === true"
     x-modelable="unreadMessages"
     x-model="totalUnreadMessages"
     x-transition.scale.origin.left
     x-transition:enter.duration.500ms
 >
-    <x-basement::organisms.header class="bm-z-30">
+    <x-basement::organisms.header-fullpage class="bm-z-30">
         <x-slot:title>
-            <x-basement::atoms.icons.fas-comments class="bm-my-1 bm-inline bm-w-4" /> {{ __('Messaging') }}
+            <x-basement::atoms.icons.fas-comments class="bm-my-1 bm-inline bm-w-4" /> {{ __('Contacts') }}
         </x-slot:title>
 
         <x-slot:buttons>
@@ -47,7 +46,6 @@
 
     <section
         class="bm-relative bm-flex bm-flex-grow bm-flex-col bm-overflow-auto bm-bg-white bm-px-3 bm-text-gray-900"
-        x-show="isContactOpened"
         x-transition=""
     >
 
@@ -73,9 +71,9 @@
             :key="contact.id"
         >
             <div
-                class="basement-contacts__user-container bm-grid bm-cursor-pointer bm-grid-cols-12 bm-items-center bm-gap-x-2 bm-border-t bm-border-gray-300 bm-px-2 bm-py-3 bm-transition hover:bm-bg-gray-100"
+                class="basement-contacts__user-container bm-grid bm-cursor-pointer bm-grid-cols-12 bm-items-center bm-gap-x-2 bm-border-t bm-border-gray-300 bm-px-1 bm-py-2 bm-transition hover:bm-bg-gray-100"
                 x-bind:data-id="contact.id"
-                x-on:click="updateReceiver(contact); isContactOpened = false; isMessageBoxOpened = true;"
+                x-on:click="updateReceiver(contact); isMessageBoxOpened = true;"
             >
 
                 <div

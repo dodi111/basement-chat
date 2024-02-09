@@ -5,12 +5,17 @@
     data-currently-typing-url="{{ route('api.basement.contacts.currently-typing', ['contact' => ':contact']) }}"
     data-user-id="{{ \Illuminate\Support\Facades\Auth::id() }}"
     x-data="basementPrivateChat"
-    x-show="isMessageBoxOpened"
     x-transition.scale.origin.right=""
     x-transition:enter.duration.500ms=""
 >
-    <x-basement::organisms.header class="bm-z-30">
-        <x-slot:title class="bm-relative bm-flex bm-flex-row bm-space-x-2">
+    <x-basement::organisms.header-fullpage 
+		class="bm-z-30"
+		x-bind:class="receiver !== null ? '' : 'bm-h-[39px]'"
+	>
+        <x-slot:title 
+			class="bm-relative bm-flex bm-flex-row bm-space-x-2"
+			x-show="receiver !== null"
+		>
             <p
                 class="bm-max-w-[90%] bm-overflow-hidden bm-text-ellipsis bm-whitespace-nowrap"
                 x-text="receiver?.name"
@@ -22,25 +27,15 @@
             />
         </x-slot:title>
 
-        <x-slot:buttons>
+        <x-slot:buttons x-show="receiver !== null">
             <x-basement::atoms.buttons.header
-                data-title="Search messages"
-                x-show="isMessageBoxOpened"
+                data-title="{{ __('Search Messages') }}"
                 x-on:click="isSearchOpened = !isSearchOpened"
             >
                 <x-basement::atoms.icons.fas-search class="bm-m-auto bm-h-[0.9rem]" />
             </x-basement::atoms.buttons.header>
-
-            <x-basement::atoms.buttons.header-minimize x-on:click="isMinimized = true" />
-
-            <x-basement::atoms.buttons.header
-                data-title="Back to contact list"
-                x-on:click="isContactOpened = true; isMessageBoxOpened = false"
-            >
-                <x-basement::atoms.icons.fas-angle-left class="bm-m-auto bm-h-[0.9rem]" />
-            </x-basement::atoms.buttons.header>
         </x-slot:buttons>
-    </x-basement::organisms.header>
+    </x-basement::organisms.header-fullpage>
 
     <x-basement::organisms.offline-state x-show="online === false" />
 
@@ -88,7 +83,7 @@
 
     <section
         class="bm-flex bm-flex-grow bm-flex-col bm-justify-between bm-overflow-y-auto bm-bg-white bm-text-gray-900">
-        <div x-show="isMessageBoxOpened"">
+        <div>
             <x-basement::molecules.form-group
                 class="bm-absolute bm-left-0 bm-top-12 bm-z-10 bm-w-full bm-rounded-lg bm-bg-white bm-p-2 bm-text-gray-900 bm-shadow-lg"
                 x-transition=""
@@ -112,7 +107,7 @@
             </x-basement::molecules.form-group>
         </div>
 
-        <div class="bm-flex bm-min-h-min bm-grow bm-flex-col bm-overflow-y-auto bm-px-3">
+        <div class="bm-flex bm-h-96 bm-grow bm-flex-col bm-overflow-y-auto bm-px-3">
             <div class="bm-my-3 bm-flex bm-flex-col bm-gap-y-3">
                 <x-basement::atoms.buttons.primary
                     class="basement-private-messages__load-more-messages-button bm--mx-3 bm--mt-3 bm-border-b bm-border-gray-300 bm-bg-gray-50 bm-py-2"
@@ -162,7 +157,7 @@
                                             <div
                                                 class="bm-absolute bm-right-0 bm-flex bm-space-x-1 bm-rounded-b-lg bm-bg-white bm-px-2 bm-py-1 bm-text-xs bm-font-bold bm-shadow-md"
                                                 data-tippy-placement="left"
-                                                x-bind:data-title="`Sent at ${message.createdAt.withinDateTimeFormat}`"
+                                                x-bind:data-title="`{{ __('Sent at') }} ${message.createdAt.withinDateTimeFormat}`"
                                             >
                                                 <x-basement::atoms.icons.fas-check-double
                                                     class="bm-inline bm-w-3"
@@ -176,7 +171,7 @@
                                             <span
                                                 class="bm-absolute bm-left-0 bm-rounded-b-lg bm-bg-white bm-px-2 bm-py-1 bm-text-xs bm-font-bold bm-shadow-md"
                                                 data-tippy-placement="right"
-                                                x-bind:data-title="`Sent at ${message.createdAt.withinDateTimeFormat}`"
+                                                x-bind:data-title="`{{ __('Sent at') }} ${message.createdAt.withinDateTimeFormat}`"
                                                 x-text="message.createdAt.withinTimeFormat"
                                             >
                                             </span>
@@ -207,7 +202,7 @@
                                                             data-title="{{ __('Information about this message') }}"
                                                             x-on:click="isInfoBoxOpened = true; selectedMessage = message"
                                                         >
-                                                           {{ __('Info') }}
+                                                            {{ __('Info') }}
                                                         </x-basement::atoms.buttons.secondary>
                                                     </li>
                                                 </ul>
@@ -224,7 +219,7 @@
                         <div class="bm-group bm-relative bm-flex bm-flex-row">
                             <p
                                 class="bm-rounded-r-lg bm-rounded-t-lg bm-bg-gray-100 bm-px-2 bm-py-1"
-                                x-bind:data-title="`${receiver?.name} is typing ...`"
+                                x-bind:data-title="`${receiver?.name} {{ __('is typing') }} ...`"
                             >
                                 <span
                                     class="bm-inline-block bm-h-1 bm-w-1 bm-animate-bounce bm-rounded-full bm-bg-gray-900"
@@ -255,7 +250,7 @@
             >
                 <x-basement::atoms.icons.fas-angle-down
                     class="bm-h-5 bm-w-5"
-                    data-title="Go to the last message"
+                    data-title="{{ __('Go to the last message') }}"
                 />
 
                 <div class="bm-absolute bm-bottom-7 bm-left-0 bm-right-0 bm-text-center">

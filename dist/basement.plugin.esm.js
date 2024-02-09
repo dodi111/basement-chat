@@ -9877,7 +9877,7 @@ var privateMessageComponent = () => {
     return {
         isInfoBoxOpened: false,
         isLastMessageShown: false,
-        isLoading: true,
+        isLoading: false,
         isLoadingShowMore: false,
         isLoadingSentMessage: false,
         isSearchOpened: false,

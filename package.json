@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "clean": "rm -rf ./dist",
+    "clean": "rd /s /q dist",
     "commit": "cz",
     "build": "npm run clean && rollup -c",
     "dev": "vite",

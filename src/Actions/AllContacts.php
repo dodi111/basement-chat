@@ -27,12 +27,15 @@ class AllContacts implements AllContactsContract
             ->addSelectLastPrivateMessageId($user)
             ->addSelectUnreadMessages($user)
             ->get();
-
+		
         $contacts->append('avatar');
         $contacts->load('lastPrivateMessage');
 
         return $contacts
             ->sortByDesc('lastPrivateMessage.id')
+			->filter(function($value) {
+				return $value->id != auth()->id();
+			})
             ->values()
             ->map(fn (Authenticatable $contact): ContactData => $this->convertToContactData($contact));
     }
