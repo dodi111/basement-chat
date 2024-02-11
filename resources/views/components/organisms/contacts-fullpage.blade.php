@@ -13,7 +13,7 @@
             <x-basement::atoms.icons.fas-comments class="bm-my-1 bm-inline bm-w-4" /> {{ __('Contacts') }}
         </x-slot:title>
 
-        <x-slot:buttons>
+        <x-slot:buttons class="bm-invisible">
             <x-basement::atoms.buttons.header
                 data-title="Mute notifications"
                 x-show="isNotificationAllowed === true && hasNotificationPermission === true"
@@ -40,7 +40,7 @@
 
             <x-basement::atoms.buttons.header-minimize x-on:click="isMinimized = true" />
         </x-slot:buttons>
-    </x-basement::organisms.header>
+    </x-basement::organisms.header-fullpage>
 
     <x-basement::organisms.offline-state x-show="online === false" />
 
